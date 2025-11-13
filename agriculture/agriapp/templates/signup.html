@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - FELAH BLADI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #8bc34a;
+            --light-color: #f1f8e9;
+            --dark-color: #1b5e20;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .auth-left {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .auth-right {
+            padding: 60px 40px;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+        
+        .btn-success {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background-color: var(--dark-color);
+            transform: translateY(-2px);
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e8f5e9;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="auth-container">
+                    <div class="row g-0">
+                        <!-- Left Side - Branding -->
+                        <div class="col-md-6 auth-left">
+                            <div class="logo-container">
+                                <div class="logo">
+                                    <img src="{% static 'images/logo.jpg' %}" alt="FELAH BLADI" class="logo-img">
+                                </div>
+                                <h2>FELAH BLADI</h2>
+                                <p class="mb-0">Moroccan Agriculture Platform</p>
+                            </div>
+                            <div class="features-list">
+                                <h4 class="mb-4">Join Our Farming Community</h4>
+                                <div class="feature-item mb-3">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Buy & Sell Agricultural Products
+                                </div>
+                                <div class="feature-item mb-3">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Connect with Agricultural Experts
+                                </div>
+                                <div class="feature-item mb-3">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Access Modern Farming Equipment
+                                </div>
+                                <div class="feature-item mb-3">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Grow Your Farming Business
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side - Signup Form -->
+                        <div class="col-md-6 auth-right">
+                            <h2 class="text-center mb-4" style="color: var(--dark-color);">Create Account</h2>
+                            
+                            <!-- Messages -->
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            
+                            <form method="POST" action="{% url 'signup' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="first_name" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="last_name" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="experience" class="form-label">Farming Experience</label>
+                                    <select class="form-control" id="experience" name="experience" required>
+                                        <option value="">Select your experience</option>
+                                        <option value="beginner">Beginner (0-2 years)</option>
+                                        <option value="intermediate">Intermediate (2-5 years)</option>
+                                        <option value="experienced">Experienced (5-10 years)</option>
+                                        <option value="expert">Expert (10+ years)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="confirm" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirm" name="confirm" required>
+                                </div>
+                                
+                                <div class="d-grid mb-4">
+                                    <button type="submit" class="btn btn-success btn-lg">Create Account</button>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <p class="mb-0">Already have an account? 
+                                        <a href="{% url 'login' %}" class="text-success text-decoration-none fw-bold">Sign In</a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

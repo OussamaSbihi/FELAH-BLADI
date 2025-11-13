@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veterinary Services - FELAH BLADI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #8bc34a;
+            --light-color: #f1f8e9;
+            --dark-color: #1b5e20;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1581093458791-8a6a5d2e1e7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .vet-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+        
+        .vet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .rating {
+            color: #ffc107;
+        }
+        
+        .vet-image {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .specialization-badge {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .contact-info {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .phone-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .phone-number:hover {
+            color: var(--dark-color);
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/logo.jpg' %}" alt="FELAH BLADI" width="40" height="40" class="d-inline-block align-text-top me-2 rounded-circle">
+                FELAH BLADI
+            </a>
+            <div class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                    <span class="navbar-text me-3">
+                        Welcome, {{ user.first_name }}!
+                    </span>
+                    {% if user.is_staff %}
+                        <a class="nav-link" href="{% url 'engineer_add' %}">
+                            <i class="fas fa-plus me-1"></i>Add Veterinarian
+                        </a>
+                    {% endif %}
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt me-1"></i>Logout
+                    </a>
+                {% else %}
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login
+                    </a>
+                    <a class="nav-link" href="{% url 'signup' %}">
+                        <i class="fas fa-user-plus me-1"></i>Sign Up
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Veterinary Services</h1>
+            <p class="lead mb-4">Connect with trusted veterinarians and livestock care experts across Morocco</p>
+        </div>
+    </section>
+
+    <!-- Veterinarians Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Expert Veterinarians</h2>
+            
+            {% if engineers %}
+            <div class="row">
+                {% for engineer in engineers %}
+                <div class="col-md-4 mb-4">
+                    <div class="card vet-card">
+                        {% if engineer.image %}
+                            <img src="{{ engineer.image.url }}" class="vet-image" alt="{{ engineer.name }}">
+                        {% else %}
+                            <div class="vet-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--light-color) 0%, var(--accent-color) 100%); color: var(--dark-color);">
+                                <i class="fas fa-user-md fa-3x"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <span class="badge specialization-badge mb-2">{{ engineer.specialization }}</span>
+                            <h5 class="card-title">{{ engineer.name }}</h5>
+                            <p class="text-muted">{{ engineer.experience_years }} years experience</p>
+                            
+                            <div class="rating mb-2">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                <span class="text-muted">(4.8)</span>
+                            </div>
+                            
+                            <p class="card-text text-muted">{{ engineer.specialization }} specialist with proven expertise in animal healthcare.</p>
+                      
+                            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#vetModal{{ engineer.id }}">Contact Veterinarian</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-user-md fa-4x text-muted mb-3"></i>
+                <h4 class="text-muted">No veterinarians available at the moment</h4>
+                <p class="text-muted">Check back later for our veterinary services</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Veterinarian Detail Modals -->
+    {% for engineer in engineers %}
+    <div class="modal fade" id="vetModal{{ engineer.id }}" tabindex="-1" aria-labelledby="vetModalLabel{{ engineer.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vetModalLabel{{ engineer.id }}"><i class="fas fa-phone me-2"></i>Contact {{ engineer.name }}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        {% if engineer.image %}
+                            <img src="{{ engineer.image.url }}" class="profile-img rounded-circle mb-3" alt="{{ engineer.name }}">
+                        {% else %}
+                            <div class="profile-img rounded-circle mb-3" style="background: linear-gradient(135deg, var(--light-color) 0%, var(--accent-color) 100%); display: flex; align-items: center; justify-content: center; color: var(--dark-color);">
+                                <i class="fas fa-user-md fa-2x"></i>
+                            </div>
+                        {% endif %}
+                        <h4>{{ engineer.name }}</h4>
+                        <p class="text-muted">{{ engineer.specialization }}</p>
+                    </div>
+                    <div class="contact-info text-center">
+                        <h6 class="mb-3"><i class="fas fa-id-card me-2"></i>Contact Information</h6>
+                        <a href="tel:{{ engineer.contact }}" class="phone-number"><i class="fas fa-phone me-2"></i>{{ engineer.contact }}</a>
+                    </div>
+                    <div class="mt-4">
+                        <h6>About {{ engineer.name }}</h6>
+                        <p class="text-muted">
+                            Specialist in {{ engineer.specialization|lower }} with {{ engineer.experience_years }} years of professional experience. 
+                            Dedicated to providing expert veterinary and animal healthcare solutions for farmers and livestock owners across Morocco.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="tel:{{ engineer.contact }}" class="btn btn-success"><i class="fas fa-phone me-2"></i>Call Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Back to Home -->
+    <div class="container mb-5">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Home
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
