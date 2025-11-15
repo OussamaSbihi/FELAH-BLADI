@@ -112,15 +112,10 @@
                 FELAH BLADI
             </a>
             <div class="navbar-nav ms-auto">
-                {% if user.is_authenticated %}
+                    {% if user.is_authenticated %}
                     <span class="navbar-text me-3">
                         Welcome, {{ user.first_name }}!
                     </span>
-                    {% if user.is_staff %}
-                        <a class="nav-link" href="{% url 'engineer_add' %}">
-                            <i class="fas fa-plus me-1"></i>Add Veterinarian
-                        </a>
-                    {% endif %}
                     <a class="nav-link" href="{% url 'logout' %}">
                         <i class="fas fa-sign-out-alt me-1"></i>Logout
                     </a>

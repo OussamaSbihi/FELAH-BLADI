@@ -107,12 +107,8 @@ def engineers_view(request):
     return render(request, 'engineers.html', {'engineers': engineers})
 
 def products_view(request):
-    # Display products from database
-    try:
-        products = Product.objects.all().order_by('-posted_at')
-    except Exception:
-        products = []
-    return render(request, 'products.html', {'products': products})
+    # Products were removed from the application — redirect to home
+    return redirect('home')
 
 def equipments_view(request):
     # Display equipments from database
@@ -140,127 +136,48 @@ def aggregators_view(request):
 
 def veterinarian_view(request):
     """Display list of AgriculturalEngineers as veterinarians."""
-    from .models import AgriculturalEngineer
-    engineers = AgriculturalEngineer.objects.all()
+    from .models import Veterinarian
+    engineers = Veterinarian.objects.all()
     return render(request, 'veterinarian.html', {'engineers': engineers})
 
 
 # Admin-only add views for model creation
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 from .forms import (
-    LandForm, ProductForm, EquipmentForm, AnimalForm, 
+    LandForm, EquipmentForm, AnimalForm, 
     AnimalFeedForm, AgriculturalEngineerForm, AggregatorForm
 )
-from .models import AgriculturalEngineer, Product, Equipment, Animal, AnimalFeed, Aggregator
+from .models import AgriculturalEngineer, Equipment, Animal, AnimalFeed, Aggregator
 
 
-@staff_member_required
+@user_passes_test(lambda u: u.is_superuser)
 def land_add_view(request):
-    """Add new land listing (staff only)."""
-    if request.method == 'POST':
-        form = LandForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Land added successfully!")
-            return redirect('land')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = LandForm()
-    return render(request, 'land_form.html', {'form': form})
+    # Site add pages are disabled; use Django admin to add Land entries.
+    return redirect('admin:index')
 
 
-@staff_member_required
+@user_passes_test(lambda u: u.is_superuser)
 def engineer_add_view(request):
-    """Add new agricultural engineer (staff only)."""
-    if request.method == 'POST':
-        form = AgriculturalEngineerForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Engineer added successfully!")
-            return redirect('engineers')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = AgriculturalEngineerForm()
-    return render(request, 'engineer_form.html', {'form': form})
+    # Site add pages are disabled; use Django admin to add AgriculturalEngineer entries.
+    return redirect('admin:index')
 
-
-@staff_member_required
-def product_add_view(request):
-    """Add new product (staff only)."""
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Product added successfully!")
-            return redirect('products')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = ProductForm()
-    return render(request, 'product_form.html', {'form': form})
-
-
-@staff_member_required
+@user_passes_test(lambda u: u.is_superuser)
 def equipment_add_view(request):
-    """Add new equipment (staff only)."""
-    if request.method == 'POST':
-        form = EquipmentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Equipment added successfully!")
-            return redirect('equipments')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = EquipmentForm()
-    return render(request, 'equipment_form.html', {'form': form})
+    # Site add pages are disabled; use Django admin to add Equipment entries.
+    return redirect('admin:index')
 
 
-@staff_member_required
+@user_passes_test(lambda u: u.is_superuser)
 def animal_add_view(request):
-    """Add new animal (staff only)."""
-    if request.method == 'POST':
-        form = AnimalForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Animal added successfully!")
-            return redirect('animals')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = AnimalForm()
-    return render(request, 'animal_form.html', {'form': form})
+    # Site add pages are disabled; use Django admin to add Animal entries.
+    return redirect('admin:index')
 
 
-@staff_member_required
+@user_passes_test(lambda u: u.is_superuser)
 def feed_add_view(request):
-    """Add new animal feed (staff only)."""
-    if request.method == 'POST':
-        form = AnimalFeedForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Animal feed added successfully!")
-            return redirect('animal_feeds')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = AnimalFeedForm()
-    return render(request, 'feed_form.html', {'form': form})
-
-
-@staff_member_required
+    # Site add pages are disabled; use Django admin to add AnimalFeed entries.
+    return redirect('admin:index')
 def aggregator_add_view(request):
-    """Add new aggregator (staff only)."""
-    if request.method == 'POST':
-        form = AggregatorForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Aggregator added successfully!")
-            return redirect('aggregators')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = AggregatorForm()
-    return render(request, 'aggregator_form.html', {'form': form})
+    # Site add pages are disabled; use Django admin to add Aggregator entries.
+    return redirect('admin:index')

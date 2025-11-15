@@ -86,7 +86,6 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ f.name }}</h5>
                                 <p class="card-text">{{ f.description|truncatewords:20 }}</p>
-                                <p class="text-success fw-bold">{{ f.price }} MAD</p>
                                 <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#feedModal{{ f.id }}">View Details</button>
                             </div>
                         </div>
@@ -128,8 +127,6 @@
                         </div>
                         <div class="col-md-6">
                             <p><strong>Name:</strong> {{ f.name }}</p>
-                            <p><strong>Type:</strong> {{ f.type }}</p>
-                            <p><strong>Price:</strong> <span class="text-success fw-bold">{{ f.price }} MAD</span></p>
                             <hr>
                             <h6>Description:</h6>
                             <p>{{ f.description }}</p>
@@ -138,6 +135,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {% if f.website %}
+                        <a href="{{ f.website }}" class="btn btn-info" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                    {% endif %}
                     <a href="{% if f.seller.email %}mailto:{{ f.seller.email }}{% endif %}" class="btn btn-success">Contact Seller</a>
                 </div>
             </div>

@@ -62,25 +62,7 @@ class Land(models.Model):
         except Exception:
             return 0
 
-# ---- Product (Seeds, Fertilizer, Tools, etc.) ----
-class Product(models.Model):
-    CATEGORY_CHOICES = [
-        ('seed', 'Seeds'),
-        ('fertilizer', 'Fertilizer'),
-        ('tool', 'Tool'),
-        ('pesticide', 'Pesticide'),
-    ]
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
-    posted_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
+# Product model removed — products are no longer part of the application
 
 # ---- Agricultural Engineer (Added by Admin Only) ----
 class AgriculturalEngineer(models.Model):
@@ -98,7 +80,8 @@ class Equipment(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField()
-    rental_price = models.DecimalField(max_digits=10, decimal_places=2)
+    rental_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
     image = models.ImageField(upload_to='equipment/', blank=True, null=True)
     available = models.BooleanField(default=True)
 
@@ -110,7 +93,7 @@ class Animal(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=50)
     breed = models.CharField(max_length=50)
-    age = models.PositiveIntegerField()
+    age = models.PositiveIntegerField(help_text='Age in months', verbose_name='Age (months)')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.CharField(max_length=100)
     image = models.ImageField(upload_to='animals/', blank=True, null=True)
@@ -122,9 +105,8 @@ class Animal(models.Model):
 class AnimalFeed(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    type = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
+    website = models.URLField(blank=True, null=True)
     image = models.ImageField(upload_to='feed/', blank=True, null=True)
 
     def __str__(self):
@@ -135,7 +117,24 @@ class Aggregator(models.Model):
     company_name = models.CharField(max_length=100)
     contact = models.CharField(max_length=50)
     service_description = models.TextField()
+    website = models.URLField(blank=True, null=True)
     image = models.ImageField(upload_to='aggregators/', blank=True, null=True)
 
     def __str__(self):
         return self.company_name
+
+
+# Proxy model to expose a separate admin section named "Veterinarian"
+class Veterinarian(models.Model):
+    name = models.CharField(max_length=100)
+    specialization = models.CharField(max_length=100)
+    experience_years = models.PositiveIntegerField()
+    contact = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='veterinarians/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Veterinarian'
+        verbose_name_plural = 'Veterinarians'
+
+    def __str__(self):
+        return self.name

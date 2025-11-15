@@ -86,7 +86,9 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ eq.name }}</h5>
                                 <p class="card-text">{{ eq.description|truncatewords:20 }}</p>
+                                {% if eq.rental_price %}
                                 <p class="text-success fw-bold">{{ eq.rental_price }} MAD</p>
+                                {% endif %}
                                 <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#equipModal{{ eq.id }}">View Details</button>
                             </div>
                         </div>
@@ -127,7 +129,9 @@
                             {% endif %}
                         </div>
                         <div class="col-md-6">
+                            {% if eq.rental_price %}
                             <p><strong>Rental Price:</strong> <span class="text-success fw-bold">{{ eq.rental_price }} MAD</span></p>
+                            {% endif %}
                             <p><strong>Availability:</strong> <span class="badge {% if eq.available %}bg-success{% else %}bg-danger{% endif %}">{% if eq.available %}Available{% else %}Unavailable{% endif %}</span></p>
                             <hr>
                             <h6>Description:</h6>
@@ -138,6 +142,9 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <a href="{% if eq.owner.email %}mailto:{{ eq.owner.email }}{% endif %}" class="btn btn-success">Contact Owner</a>
+                    {% if eq.website %}
+                    <a href="{{ eq.website }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Visit Website</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

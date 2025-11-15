@@ -375,12 +375,13 @@
         </div>
     </section>
 
-    <!-- Categories Section -->
+    <!-- Categories Section: responsive balanced grid to avoid empty gaps -->
     <section class="categories-section" id="categories">
         <div class="container">
             <h2 class="section-title">Explore Our Categories</h2>
-            <div class="row">
-                <div class="col-md-3 fade-in">
+
+            <div class="row g-3">
+                <div class="col-6 col-md-4 col-lg-3 fade-in">
                     <a href="{% url 'land' %}" class="category-btn">
                         <div class="category-icon">
                             <i class="fas fa-mountain"></i>
@@ -388,7 +389,8 @@
                         Land
                     </a>
                 </div>
-                <div class="col-md-3 fade-in">
+
+                <div class="col-6 col-md-4 col-lg-3 fade-in">
                     <a href="{% url 'animals' %}" class="category-btn">
                         <div class="category-icon">
                             <i class="fas fa-cow"></i>
@@ -396,7 +398,8 @@
                         Animals
                     </a>
                 </div>
-                <div class="col-md-3 fade-in">
+
+                <div class="col-6 col-md-4 col-lg-3 fade-in">
                     <a href="{% url 'engineers' %}" class="category-btn">
                         <div class="category-icon">
                             <i class="fas fa-user-graduate"></i>
@@ -404,17 +407,8 @@
                         Engineers
                     </a>
                 </div>
-                <div class="col-md-3 fade-in">
-                    <a href="{% url 'products' %}" class="category-btn">
-                        <div class="category-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        Products
-                    </a>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-3 fade-in">
+
+                <div class="col-6 col-md-4 col-lg-3 fade-in">
                     <a href="{% url 'equipments' %}" class="category-btn">
                         <div class="category-icon">
                             <i class="fas fa-tractor"></i>
@@ -422,7 +416,8 @@
                         Equipments
                     </a>
                 </div>
-                <div class="col-md-3 fade-in">
+
+                <div class="col-6 col-md-4 col-lg-3 fade-in">
                     <a href="{% url 'animal_feeds' %}" class="category-btn">
                         <div class="category-icon">
                             <i class="fas fa-seedling"></i>
@@ -430,7 +425,8 @@
                         Animal Feeds
                     </a>
                 </div>
-                <div class="col-md-3 fade-in">
+
+                <div class="col-6 col-md-4 col-lg-3 fade-in">
                     <a href="{% url 'aggregators' %}" class="category-btn">
                         <div class="category-icon">
                             <i class="fas fa-network-wired"></i>
@@ -438,7 +434,8 @@
                         Aggregators
                     </a>
                 </div>
-                <div class="col-md-3 fade-in">
+
+                <div class="col-6 col-md-4 col-lg-3 fade-in">
                     <a href="{% url 'veterinarian' %}" class="category-btn">
                         <div class="category-icon">
                             <i class="fas fa-stethoscope"></i>
@@ -523,7 +520,7 @@
                         <li><a href="{% url 'land' %}">Land</a></li>
                         <li><a href="{% url 'animals' %}">Animals</a></li>
                         <li><a href="{% url 'engineers' %}">Engineers</a></li>
-                        <li><a href="{% url 'products' %}">Products</a></li>
+                        <!-- Products removed -->
                         <li><a href="{% url 'equipments' %}">Equipments</a></li>
                         <li><a href="{% url 'animal_feeds' %}">Animal Feeds</a></li>
                         <li><a href="{% url 'aggregators' %}">Aggregators</a></li>
@@ -548,7 +545,7 @@
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2023 FELAH BLADI. All rights reserved.
+                &copy; 2025 FELAH BLADI. All rights reserved.
             </div>
         </div>
     </footer>

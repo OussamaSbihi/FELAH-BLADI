@@ -1,6 +1,6 @@
 from django import forms
 from .models import (
-	Land, Product, Equipment, Animal, AnimalFeed,
+	Land, Equipment, Animal, AnimalFeed,
 	AgriculturalEngineer, Aggregator
 )
 
@@ -14,22 +14,21 @@ class LandForm(forms.ModelForm):
 		]
 
 
-class ProductForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = ['name', 'category', 'description', 'price', 'quantity', 'image']
 class EquipmentForm(forms.ModelForm):
     class Meta:
         model = Equipment
         fields = ['name', 'description', 'rental_price', 'image', 'available']
 class AnimalForm(forms.ModelForm):
-    class Meta:
-        model = Animal
-        fields = ['type', 'breed', 'age', 'price', 'location', 'image']
+	class Meta:
+		model = Animal
+		fields = ['type', 'breed', 'age', 'price', 'location', 'image']
+		labels = {
+			'age': 'Age (months)'
+		}
 class AnimalFeedForm(forms.ModelForm):
     class Meta:
         model = AnimalFeed
-        fields = ['name', 'type', 'price', 'description', 'image']
+        fields = ['name', 'description', 'website', 'image']
 class AgriculturalEngineerForm(forms.ModelForm):
 	class Meta:
 		model = AgriculturalEngineer
